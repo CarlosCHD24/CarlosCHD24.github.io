@@ -9,9 +9,7 @@
 .hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(230px, 0.32fr);
-  gap: clamp(2rem, 6vw, 5rem);
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr);
   padding: clamp(2.5rem, 7vw, 6rem) 0 clamp(2rem, 5vw, 4rem);
   border-bottom: 1px solid var(--employment-line);
 }
@@ -148,7 +146,8 @@
 }
 
 .sectionHeading h2,
-.filteredSummary h2 {
+.filteredSummary h2,
+.datasetFooter h2 {
   margin: 0;
   font-size: clamp(1.65rem, 3.5vw, 2.5rem);
   letter-spacing: -0.035em;
@@ -165,15 +164,84 @@
   font-family: var(--font-mono);
 }
 
+.filterPanel {
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--employment-line);
+  border-radius: var(--radius-lg);
+  background: rgba(26, 29, 36, 0.72);
+}
+
+.filterPanel > summary {
+  display: flex;
+  min-height: 64px;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.1rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.filterPanel > summary::-webkit-details-marker {
+  display: none;
+}
+
+.filterPanel[open] > summary {
+  border-bottom: 1px solid var(--employment-line);
+}
+
+.filterPanelSummary {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.filterPanelSummary strong {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.filterPanelSummary small {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
+.filterPanelAction {
+  display: flex;
+  gap: 0.55rem;
+  align-items: center;
+  color: var(--employment-accent);
+  font-size: 0.74rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.filterPanelAction::after {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  content: "+";
+}
+
+.openLabel {
+  display: none;
+}
+
+.filterPanel[open] .closedLabel {
+  display: none;
+}
+
+.filterPanel[open] .openLabel {
+  display: inline;
+}
+
+.filterPanel[open] .filterPanelAction::after {
+  content: "−";
+}
+
 .filters {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.9rem;
-  margin-bottom: 1.25rem;
   padding: 1.1rem;
-  border: 1px solid var(--employment-line);
-  border-radius: var(--radius-lg);
-  background: rgba(26, 29, 36, 0.72);
 }
 
 .filters > label {
@@ -206,6 +274,7 @@
 
 .filters input:focus-visible,
 .filters select:focus-visible,
+.filterPanel > summary:focus-visible,
 .pagination select:focus-visible,
 .pagination button:focus-visible,
 .clearButton:focus-visible,
@@ -715,6 +784,23 @@
   font-weight: 700;
 }
 
+.datasetFooter {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.55fr) minmax(260px, 0.45fr);
+  gap: clamp(2rem, 7vw, 6rem);
+  align-items: center;
+  margin-top: clamp(3rem, 7vw, 6rem);
+  padding-top: 2rem;
+  border-top: 1px solid var(--employment-line);
+}
+
+.datasetFooter p {
+  max-width: 520px;
+  margin: 0.75rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
 .srOnly {
   position: absolute;
   width: 1px;
@@ -737,6 +823,10 @@
   }
 
   .filteredSummary {
+    grid-template-columns: 1fr;
+  }
+
+  .datasetFooter {
     grid-template-columns: 1fr;
   }
 }
@@ -777,6 +867,14 @@
 
   .filters {
     grid-template-columns: 1fr;
+  }
+
+  .filterPanel > summary {
+    padding: 0.85rem;
+  }
+
+  .filterPanelAction {
+    font-size: 0.68rem;
   }
 
   .searchField {

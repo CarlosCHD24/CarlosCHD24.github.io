@@ -27,11 +27,13 @@ La ruta `/empleo-publico/` permite consultar el maestro sin interpretar manualme
 - búsqueda de texto tolerante a mayúsculas y tildes;
 - filtros de selección múltiple por proceso, bolsa, estado, acceso y fuente; las opciones de una misma categoría
   se combinan como alternativas y las categorías activas se combinan entre sí;
+- un panel de filtros desplegable, cerrado por defecto, que conserva y resume los criterios activos;
 - un botón independiente para ocultar o volver a mostrar todos los procesos finalizados;
 - ordenación y paginación;
 - tabla con puesto, organismo, ubicación, plazas, bolsa, estado, fecha, fuente y completitud;
 - detalle expandible con titulación, requisitos, solicitudes, fuentes, análisis y notas;
 - resumen superior del maestro y resumen inferior del resultado filtrado;
+- un bloque final con la cobertura temporal y la descarga del maestro JSONL;
 - enlaces a todas las fuentes oficiales disponibles.
 
 ## Reglas de presentación

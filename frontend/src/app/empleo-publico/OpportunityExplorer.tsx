@@ -334,6 +334,15 @@ export default function OpportunityExplorer() {
     };
   }, [filteredRecords]);
 
+  const activeFilterCount =
+    (query.trim() ? 1 : 0) +
+    processKinds.length +
+    pools.length +
+    statuses.length +
+    accesses.length +
+    sources.length +
+    (hideFinished ? 1 : 0);
+
   function clearFilters() {
     setQuery("");
     setProcessKinds([]);
@@ -355,13 +364,6 @@ export default function OpportunityExplorer() {
             Convocatorias, bolsas y procesos de provisión consolidados en un único visor. Busca,
             filtra y abre siempre la publicación oficial.
           </p>
-        </div>
-        <div className={styles.coverage} aria-label="Cobertura del conjunto de datos">
-          <span>Cobertura</span>
-          <strong>21 abr — 18 ago 2026</strong>
-          <a href={DATASET_URL} download>
-            Descargar JSONL <span aria-hidden="true">↓</span>
-          </a>
         </div>
       </header>
 
@@ -385,45 +387,62 @@ export default function OpportunityExplorer() {
           )}
         </div>
 
-        <form className={styles.filters} onSubmit={(event) => event.preventDefault()}>
-          <label className={styles.searchField}>
-            <span>Buscar</span>
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Puesto, organismo o municipio…"
-            />
-          </label>
+        <details className={styles.filterPanel}>
+          <summary aria-label="Mostrar u ocultar filtros">
+            <span className={styles.filterPanelSummary}>
+              <strong>Filtros de búsqueda</strong>
+              <small>
+                {activeFilterCount === 0
+                  ? "Sin filtros activos"
+                  : `${activeFilterCount} ${activeFilterCount === 1 ? "criterio activo" : "criterios activos"}`}
+              </small>
+            </span>
+            <span className={styles.filterPanelAction} aria-hidden="true">
+              <span className={styles.closedLabel}>Mostrar filtros</span>
+              <span className={styles.openLabel}>Ocultar filtros</span>
+            </span>
+          </summary>
 
-          <MultiSelectFilter label="Proceso" options={PROCESS_OPTIONS} selected={processKinds} onChange={setProcessKinds} disabled={loading} />
-          <MultiSelectFilter label="Bolsa" options={POOL_OPTIONS} selected={pools} onChange={setPools} disabled={loading} />
-          <MultiSelectFilter label="Estado" options={STATUS_OPTIONS} selected={statuses} onChange={setStatuses} disabled={loading} />
-          <MultiSelectFilter label="Acceso" options={ACCESS_OPTIONS} selected={accesses} onChange={setAccesses} disabled={loading} />
-          <MultiSelectFilter
-            label="Fuente"
-            options={sourceOptions.map((item) => ({ value: item, label: formatSourceLabel(item) }))}
-            selected={sources}
-            onChange={setSources}
-            disabled={loading}
-          />
-          <label><span>Orden</span><select value={sort} onChange={(event) => setSort(event.target.value as SortMode)}><option value="recent">Más recientes</option><option value="oldest">Más antiguas</option><option value="vacancies">Más plazas</option><option value="complete">Mayor completitud</option><option value="title">Nombre A–Z</option></select></label>
-          <button
-            type="button"
-            className={`${styles.finishedToggle} ${hideFinished ? styles.finishedToggleActive : ""}`}
-            aria-pressed={hideFinished}
-            disabled={loading || Boolean(loadError)}
-            onClick={() => setHideFinished((current) => !current)}
-          >
-            <span aria-hidden="true">{hideFinished ? "✓" : "−"}</span>
-            {loading
-              ? "Ocultar finalizadas"
-              : hideFinished
-              ? `${globalMetrics.finished} finalizadas ocultas`
-              : `Ocultar ${globalMetrics.finished} finalizadas`}
-          </button>
-          <button type="button" className={styles.clearButton} onClick={clearFilters}>Limpiar filtros</button>
-        </form>
+          <form className={styles.filters} onSubmit={(event) => event.preventDefault()}>
+            <label className={styles.searchField}>
+              <span>Buscar</span>
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Puesto, organismo o municipio…"
+              />
+            </label>
+
+            <MultiSelectFilter label="Proceso" options={PROCESS_OPTIONS} selected={processKinds} onChange={setProcessKinds} disabled={loading} />
+            <MultiSelectFilter label="Bolsa" options={POOL_OPTIONS} selected={pools} onChange={setPools} disabled={loading} />
+            <MultiSelectFilter label="Estado" options={STATUS_OPTIONS} selected={statuses} onChange={setStatuses} disabled={loading} />
+            <MultiSelectFilter label="Acceso" options={ACCESS_OPTIONS} selected={accesses} onChange={setAccesses} disabled={loading} />
+            <MultiSelectFilter
+              label="Fuente"
+              options={sourceOptions.map((item) => ({ value: item, label: formatSourceLabel(item) }))}
+              selected={sources}
+              onChange={setSources}
+              disabled={loading}
+            />
+            <label><span>Orden</span><select value={sort} onChange={(event) => setSort(event.target.value as SortMode)}><option value="recent">Más recientes</option><option value="oldest">Más antiguas</option><option value="vacancies">Más plazas</option><option value="complete">Mayor completitud</option><option value="title">Nombre A–Z</option></select></label>
+            <button
+              type="button"
+              className={`${styles.finishedToggle} ${hideFinished ? styles.finishedToggleActive : ""}`}
+              aria-pressed={hideFinished}
+              disabled={loading || Boolean(loadError)}
+              onClick={() => setHideFinished((current) => !current)}
+            >
+              <span aria-hidden="true">{hideFinished ? "✓" : "−"}</span>
+              {loading
+                ? "Ocultar finalizadas"
+                : hideFinished
+                ? `${globalMetrics.finished} finalizadas ocultas`
+                : `Ocultar ${globalMetrics.finished} finalizadas`}
+            </button>
+            <button type="button" className={styles.clearButton} onClick={clearFilters}>Limpiar filtros</button>
+          </form>
+        </details>
 
         {loading && <div className={styles.stateMessage} role="status">Cargando oportunidades…</div>}
         {loadError && <div className={styles.errorMessage} role="alert">{loadError}</div>}
@@ -520,6 +539,21 @@ export default function OpportunityExplorer() {
             </section>
           </>
         )}
+      </section>
+
+      <section className={styles.datasetFooter} aria-labelledby="dataset-title">
+        <div>
+          <span className={styles.sectionIndex}>03 / DATOS</span>
+          <h2 id="dataset-title">Cobertura y descarga</h2>
+          <p>Descarga el fichero maestro completo en formato JSON Lines.</p>
+        </div>
+        <div className={styles.coverage} aria-label="Cobertura del conjunto de datos">
+          <span>Cobertura</span>
+          <strong>21 abr — 18 ago 2026</strong>
+          <a href={DATASET_URL} download>
+            Descargar JSONL <span aria-hidden="true">↓</span>
+          </a>
+        </div>
       </section>
     </main>
   );

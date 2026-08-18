@@ -5,8 +5,8 @@
 - Static Next.js viewer for public-employment opportunities in Sevilla and its province.
 - Public routes: `/` and `/empleo-publico/`.
 - Dataset: 236 valid schema-v2 records in `frontend/public/data/convocatorias.jsonl`.
-- Features: diacritic-tolerant search, process/pool/status/access/source/review filters, one-click finished-process
-  hiding, sorting, pagination, accessible table, expandable details, and official-source links.
+- Features: diacritic-tolerant search, collapsible multi-select process/pool/status/access/source/review filters,
+  one-click finished-process hiding, sorting, pagination, accessible table, expandable details, and official-source links.
 - Publishing target: `https://carloschd24.github.io/` through GitHub Pages.
 
 ## Completed work
@@ -53,4 +53,15 @@
   - ESLint: passed with zero errors and zero warnings.
   - Component/helper tests: 7 passed.
   - Next.js production build, TypeScript, and static-export validation: passed.
+  - Browser interaction, responsive, retired-route, and WCAG A/AA checks: 16 passed.
+
+### 2026-08-18 — Collapsible filters and dataset footer
+
+- Wrapped the complete filter area in an accessible disclosure that starts closed and reports the number of active criteria.
+- Kept filter state and filtered results intact when the disclosure is closed and reopened.
+- Moved the coverage and JSONL download card out of the hero and into a dedicated final page section.
+- Validation completed before publication:
+  - ESLint: passed with zero errors and zero warnings.
+  - Component/helper tests: 7 passed.
+  - Next.js production build, TypeScript, and static-export validation: passed (42 files, 3.18 MiB).
   - Browser interaction, responsive, retired-route, and WCAG A/AA checks: 16 passed.
