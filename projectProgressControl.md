@@ -853,3 +853,18 @@ Task states:
   - Reviewed dependency security baseline: passed.
   - Playwright route, interaction, responsive, and WCAG A/AA checks: 36 passed.
   - Export size: 9.59 MiB, below the established 12 MiB ceiling.
+
+### 2026-08-18 — Hide Finished Opportunities
+
+- [x] Added a one-click, reversible control to hide the 25 records whose process stage is `COMPLETED`.
+- [x] Kept the control independent from the existing status selector so visitors no longer need to select every
+  non-final state individually.
+- [x] Added pressed-state semantics, visible active styling, a dynamic hidden-count label, and filter-reset support.
+- [x] Added component coverage for the finished-record rule and end-to-end coverage for activation and reset.
+- [x] Corrected the component-test discovery pattern so TypeScript helper tests run alongside TSX component tests.
+- Validation completed before publication:
+  - ESLint: passed with zero errors and zero warnings.
+  - Component and helper tests: 9 passed across 3 files.
+  - Next.js production build and TypeScript: passed.
+  - Static export validation: passed at 9.59 MiB.
+  - Playwright interaction, responsive, route, and WCAG A/AA checks: 36 passed.

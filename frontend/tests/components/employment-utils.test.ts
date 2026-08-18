@@ -6,6 +6,7 @@ import {
   formatVacancies,
   getLatestPublicationDate,
   getPrimarySource,
+  isFinishedOpportunity,
   normalizeText,
   type Opportunity,
 } from "@/app/empleo-publico/opportunityUtils";
@@ -45,7 +46,7 @@ const record = {
 
 describe("employment presentation helpers", () => {
   it("normalizes case and Spanish diacritics without changing source data", () => {
-    expect(normalizeText("Técnico · Écija")).toBe("tecnico · ecija");
+    expect(normalizeText("Técnico · Écija")).toBe("tecnico ecija");
   });
 
   it("formats multiple locations and vacancies", () => {
@@ -61,5 +62,11 @@ describe("employment presentation helpers", () => {
 
   it("renders an open application as the most useful status", () => {
     expect(formatProcessStatus(record)).toBe("Solicitudes abiertas");
+  });
+
+  it("identifies only completed processes as finished", () => {
+    expect(isFinishedOpportunity(record)).toBe(false);
+    expect(isFinishedOpportunity({ ...record, process_stage: "COMPLETED" })).toBe(true);
+    expect(isFinishedOpportunity({ ...record, process_stage: "APPOINTMENT" })).toBe(false);
   });
 });

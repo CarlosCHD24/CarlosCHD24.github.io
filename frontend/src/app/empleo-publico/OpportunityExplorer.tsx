@@ -15,6 +15,7 @@ import {
   getLatestPublicationDate,
   getPrimarySource,
   getSearchableText,
+  isFinishedOpportunity,
   normalizeText,
   type Opportunity,
 } from "./opportunityUtils";
@@ -127,6 +128,7 @@ export default function OpportunityExplorer() {
   const [access, setAccess] = useState("ALL");
   const [source, setSource] = useState("ALL");
   const [onlyReview, setOnlyReview] = useState(false);
+  const [hideFinished, setHideFinished] = useState(false);
   const [sort, setSort] = useState<SortMode>("recent");
   const [pageSize, setPageSize] = useState(25);
   const [page, setPage] = useState(1);
@@ -193,6 +195,7 @@ export default function OpportunityExplorer() {
       if (access !== "ALL" && record.access_channel !== access) return false;
       if (source !== "ALL" && !record.sources.some((item) => item.source_id === source)) return false;
       if (onlyReview && record.analysis.status !== "NEEDS_REVIEW") return false;
+      if (hideFinished && isFinishedOpportunity(record)) return false;
       if (status === "OPEN" && record.application_status !== "OPEN") return false;
       if (status === "REVIEW" && record.analysis.status !== "NEEDS_REVIEW") return false;
       if (status !== "ALL" && status !== "OPEN" && status !== "REVIEW" && record.process_stage !== status) return false;
@@ -206,7 +209,7 @@ export default function OpportunityExplorer() {
       if (sort === "title") return a.title.localeCompare(b.title, "es");
       return (getLatestPublicationDate(b) ?? "").localeCompare(getLatestPublicationDate(a) ?? "");
     });
-  }, [access, onlyReview, pool, processKind, query, records, sort, source, status]);
+  }, [access, hideFinished, onlyReview, pool, processKind, query, records, sort, source, status]);
 
   const totalPages = Math.max(1, Math.ceil(filteredRecords.length / pageSize));
   const safePage = Math.min(page, totalPages);
@@ -218,6 +221,7 @@ export default function OpportunityExplorer() {
       pools: records.filter((record) => record.pool.existence === "YES").length,
       open: records.filter((record) => record.application_status === "OPEN").length,
       review: records.filter((record) => record.analysis.status === "NEEDS_REVIEW").length,
+      finished: records.filter(isFinishedOpportunity).length,
     }),
     [records],
   );
@@ -251,6 +255,7 @@ export default function OpportunityExplorer() {
     setAccess("ALL");
     setSource("ALL");
     setOnlyReview(false);
+    setHideFinished(false);
     setSort("recent");
   }
 
@@ -316,6 +321,20 @@ export default function OpportunityExplorer() {
             <input type="checkbox" checked={onlyReview} onChange={(event) => setOnlyReview(event.target.checked)} />
             <span>Solo registros para revisar</span>
           </label>
+          <button
+            type="button"
+            className={`${styles.finishedToggle} ${hideFinished ? styles.finishedToggleActive : ""}`}
+            aria-pressed={hideFinished}
+            disabled={loading || Boolean(loadError)}
+            onClick={() => setHideFinished((current) => !current)}
+          >
+            <span aria-hidden="true">{hideFinished ? "✓" : "−"}</span>
+            {loading
+              ? "Ocultar finalizadas"
+              : hideFinished
+              ? `${globalMetrics.finished} finalizadas ocultas`
+              : `Ocultar ${globalMetrics.finished} finalizadas`}
+          </button>
           <button type="button" className={styles.clearButton} onClick={clearFilters}>Limpiar filtros</button>
         </form>
 

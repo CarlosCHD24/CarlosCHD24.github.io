@@ -15,6 +15,7 @@
 - 12 registros que requieren revisión (`analysis.status == NEEDS_REVIEW`).
 - 28 registros con más de una fuente.
 - 5 procesos con solicitudes abiertas (`application_status == OPEN`).
+- 25 procesos finalizados (`process_stage == COMPLETED`).
 - 157 procesos de selección de plazas, 62 procesos de bolsa y 17 procesos de provisión.
 
 Las cifras visibles en el visor deben calcularse desde el JSONL; no deben quedar fijadas en el código de interfaz.
@@ -25,6 +26,7 @@ La ruta `/empleo-publico/` permite consultar el maestro sin interpretar manualme
 
 - búsqueda de texto tolerante a mayúsculas y tildes;
 - filtros por proceso, bolsa, estado, acceso, fuente y revisión;
+- un botón independiente para ocultar o volver a mostrar todos los procesos finalizados;
 - ordenación y paginación;
 - tabla con puesto, organismo, ubicación, plazas, bolsa, estado, fecha, fuente y completitud;
 - detalle expandible con titulación, requisitos, solicitudes, fuentes, análisis y notas;

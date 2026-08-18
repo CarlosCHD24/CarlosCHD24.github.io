@@ -125,7 +125,9 @@ export function normalizeText(value: unknown = "") {
   return String(value ?? "")
     .normalize("NFD")
     .replace(/\p{Diacritic}/gu, "")
-    .toLowerCase();
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 export function formatUnknownValue(value: string | null | undefined) {
@@ -199,6 +201,10 @@ export function formatProcessStatus(record: Opportunity) {
     UNKNOWN: "Estado desconocido",
   };
   return labels[record.process_stage] ?? record.process_stage.replaceAll("_", " ");
+}
+
+export function isFinishedOpportunity(record: Opportunity) {
+  return record.process_stage === "COMPLETED";
 }
 
 export function getSearchableText(record: Opportunity) {
