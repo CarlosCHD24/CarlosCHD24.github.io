@@ -6,7 +6,7 @@ const timeoutMilliseconds = 15_000;
 const restrictedStatuses = new Set([401, 403, 429]);
 const siteOrigin = new URL(
   process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
-    "https://jgarciasuarez.github.io",
+    "https://carloschd24.github.io",
 ).origin;
 
 async function collectHtmlFiles(directory) {
@@ -51,7 +51,7 @@ async function checkUrl(url) {
         headers: {
           Accept: "text/html,application/xhtml+xml,application/pdf;q=0.9,*/*;q=0.8",
           "User-Agent":
-            "Mozilla/5.0 (compatible; JoaquinPortfolioLinkCheck/1.0; +https://jgarciasuarez.github.io/)",
+          "Mozilla/5.0 (compatible; EmpleoPublicoLinkCheck/1.0; +https://carloschd24.github.io/)",
         },
       });
       await response.body?.cancel();

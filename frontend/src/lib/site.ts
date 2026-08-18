@@ -1,4 +1,4 @@
-const canonicalFallback = "https://jgarciasuarez.github.io";
+const canonicalFallback = "https://carloschd24.github.io";
 
 export const siteUrl = new URL(
   process.env.NEXT_PUBLIC_SITE_URL?.trim() || canonicalFallback,

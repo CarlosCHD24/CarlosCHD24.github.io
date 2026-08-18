@@ -16,13 +16,6 @@ export const metadata: Metadata = {
     title: pageTitle,
     description: pageDescription,
     url: "/empleo-publico",
-    locale: "es_ES",
-    image: {
-      url: "/empleo-publico-og.png",
-      width: 1536,
-      height: 1024,
-      alt: "Visor de oportunidades de empleo público en Sevilla con tabla, filtros y métricas.",
-    },
   }),
 };
 

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
 export const socialImage = {
-  url: "/opengraph-image.png",
+  url: "/empleo-publico-og.png",
   width: 1536,
   height: 1024,
-  alt: "DDCF research network connecting computational friction, interface mechanics, and data-driven modeling.",
+  alt: "Visor de oportunidades de empleo público en Sevilla con tabla, filtros y métricas.",
 } as const;
 
 type SocialMetadataOptions = {
@@ -24,7 +24,7 @@ export function createSocialMetadata({
   title,
   description,
   url,
-  locale = "en_US",
+  locale = "es_ES",
   image = socialImage,
 }: SocialMetadataOptions): Pick<Metadata, "openGraph" | "twitter"> {
   return {
@@ -33,7 +33,7 @@ export function createSocialMetadata({
       description,
       type: "website",
       url,
-      siteName: "Joaquin Garcia-Suarez",
+      siteName: "Empleo público · Sevilla",
       locale,
       images: [image],
     },

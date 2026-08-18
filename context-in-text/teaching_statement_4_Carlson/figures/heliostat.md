@@ -1,1 +1,0 @@
-This image shows a simplified 3D diagram of a heliostat. It consists of a large, flat, rectangular solar reflector panel mounted on a single vertical pole stand. The panel is divided into a grid of smaller square sections. The pole is fixed to the ground.

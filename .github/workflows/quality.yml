@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 env:
-  NEXT_PUBLIC_SITE_URL: ${{ vars.SITE_URL || 'https://jgarciasuarez.github.io' }}
+  NEXT_PUBLIC_SITE_URL: ${{ vars.SITE_URL || 'https://carloschd24.github.io' }}
   SITE_INDEXING: ${{ vars.SITE_INDEXING || 'false' }}
 
 jobs:
@@ -55,9 +55,9 @@ jobs:
       - name: Validate reviewed transitive dependency baseline
         run: npm run validate:security-baseline
 
-      - name: Validate indexable production SEO mode
+      - name: Validate indexable SEO mode
         env:
-          NEXT_PUBLIC_SITE_URL: https://jgarciasuarez.github.io
+          NEXT_PUBLIC_SITE_URL: https://carloschd24.github.io
           SITE_INDEXING: "true"
         run: npm run build && npm run validate:export
 
@@ -76,8 +76,7 @@ jobs:
   build-pages:
     if: >-
       github.event_name != 'pull_request' &&
-      (github.repository == 'CarlosCHD24/CarlosCHD24.github.io' ||
-      github.repository == 'jgarciasuarez/jgarciasuarez.github.io')
+      github.repository == 'CarlosCHD24/CarlosCHD24.github.io'
     needs: quality
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -122,8 +121,7 @@ jobs:
     if: >-
       vars.PAGES_DEPLOY_ENABLED == 'true' &&
       (github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
-      (github.repository == 'CarlosCHD24/CarlosCHD24.github.io' ||
-      github.repository == 'jgarciasuarez/jgarciasuarez.github.io')
+      github.repository == 'CarlosCHD24/CarlosCHD24.github.io'
     needs: build-pages
     runs-on: ubuntu-latest
     timeout-minutes: 10

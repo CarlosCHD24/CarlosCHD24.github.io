@@ -1,1 +1,0 @@
-This is a black-and-white photograph of a parabolic trough solar collector in an outdoor field. The structure features a large, curved, trough-shaped mirror supported by a metal truss framework. A receiver tube runs horizontally along the focal line of the parabolic reflector to collect the concentrated solar energy.

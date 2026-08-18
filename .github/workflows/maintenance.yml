@@ -18,7 +18,7 @@ jobs:
         working-directory: frontend
 
     env:
-      NEXT_PUBLIC_SITE_URL: https://jgarciasuarez.github.io
+      NEXT_PUBLIC_SITE_URL: https://carloschd24.github.io
       SITE_INDEXING: "true"
 
     steps:
