@@ -16,14 +16,105 @@ import {
   getPrimarySource,
   getSearchableText,
   isFinishedOpportunity,
+  matchesSelectedStatus,
+  matchesSelectedValue,
   normalizeText,
   type Opportunity,
 } from "./opportunityUtils";
 import styles from "./page.module.css";
 
 type SortMode = "recent" | "oldest" | "vacancies" | "complete" | "title";
+type FilterOption = { value: string; label: string };
 
 const DATASET_URL = "/data/convocatorias.jsonl";
+const PROCESS_OPTIONS: FilterOption[] = [
+  { value: "POSITION_SELECTION", label: "Plazas" },
+  { value: "POOL_SELECTION", label: "Bolsas" },
+  { value: "POSITION_PROVISION", label: "Provisión" },
+];
+const POOL_OPTIONS: FilterOption[] = [
+  { value: "YES", label: "Sí" },
+  { value: "CONDITIONAL", label: "Posible" },
+  { value: "NO", label: "No" },
+  { value: "UNKNOWN", label: "Desconocido" },
+  { value: "NOT_STATED", label: "No indicada" },
+];
+const STATUS_OPTIONS: FilterOption[] = [
+  { value: "OPEN", label: "Solicitudes abiertas" },
+  { value: "DETECTED", label: "Detectado" },
+  { value: "APPLICATION", label: "Solicitudes" },
+  { value: "ADMISSION", label: "Admitidos" },
+  { value: "EXAM", label: "Examen" },
+  { value: "MERITS", label: "Méritos" },
+  { value: "APPOINTMENT", label: "Nombramiento" },
+  { value: "COMPLETED", label: "Finalizado" },
+  { value: "REVIEW", label: "Necesita revisión" },
+];
+const ACCESS_OPTIONS: FilterOption[] = [
+  { value: "FREE", label: "Libre" },
+  { value: "INTERNAL_PROMOTION", label: "Promoción interna" },
+  { value: "MIXED", label: "Mixto" },
+  { value: "OTHER", label: "Otro" },
+  { value: "UNKNOWN", label: "Desconocido" },
+];
+
+function MultiSelectFilter({
+  label,
+  options,
+  selected,
+  onChange,
+  disabled = false,
+}: {
+  label: string;
+  options: FilterOption[];
+  selected: string[];
+  onChange: (values: string[]) => void;
+  disabled?: boolean;
+}) {
+  const selectedLabel =
+    selected.length === 0
+      ? "Todos"
+      : selected.length === 1
+        ? options.find((option) => option.value === selected[0])?.label ?? "1 seleccionado"
+        : `${selected.length} seleccionados`;
+
+  function toggleValue(value: string) {
+    onChange(
+      selected.includes(value)
+        ? selected.filter((item) => item !== value)
+        : [...selected, value],
+    );
+  }
+
+  return (
+    <details className={styles.multiSelect}>
+      <summary aria-label={`${label}: ${selectedLabel}`}>
+        <span>{label}</span>
+        <strong>{selectedLabel}</strong>
+      </summary>
+      <div className={styles.multiSelectMenu}>
+        <fieldset disabled={disabled}>
+          <legend className={styles.srOnly}>{`Seleccionar ${label.toLowerCase()}`}</legend>
+          {options.map((option) => (
+            <label key={option.value} className={styles.multiSelectOption}>
+              <input
+                type="checkbox"
+                checked={selected.includes(option.value)}
+                onChange={() => toggleValue(option.value)}
+              />
+              <span>{option.label}</span>
+            </label>
+          ))}
+        </fieldset>
+        {selected.length > 0 && (
+          <button type="button" onClick={() => onChange([])}>
+            Mostrar todos
+          </button>
+        )}
+      </div>
+    </details>
+  );
+}
 
 function DetailValue({ label, value }: { label: string; value: string | number | null | undefined }) {
   return (
@@ -122,12 +213,11 @@ export default function OpportunityExplorer() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
-  const [processKind, setProcessKind] = useState("ALL");
-  const [pool, setPool] = useState("ALL");
-  const [status, setStatus] = useState("ALL");
-  const [access, setAccess] = useState("ALL");
-  const [source, setSource] = useState("ALL");
-  const [onlyReview, setOnlyReview] = useState(false);
+  const [processKinds, setProcessKinds] = useState<string[]>([]);
+  const [pools, setPools] = useState<string[]>([]);
+  const [statuses, setStatuses] = useState<string[]>([]);
+  const [accesses, setAccesses] = useState<string[]>([]);
+  const [sources, setSources] = useState<string[]>([]);
   const [hideFinished, setHideFinished] = useState(false);
   const [sort, setSort] = useState<SortMode>("recent");
   const [pageSize, setPageSize] = useState(25);
@@ -190,15 +280,12 @@ export default function OpportunityExplorer() {
     const normalizedQuery = normalizeText(query.trim());
     const result = records.filter((record) => {
       if (normalizedQuery && !getSearchableText(record).includes(normalizedQuery)) return false;
-      if (processKind !== "ALL" && record.process_kind !== processKind) return false;
-      if (pool !== "ALL" && record.pool.existence !== pool) return false;
-      if (access !== "ALL" && record.access_channel !== access) return false;
-      if (source !== "ALL" && !record.sources.some((item) => item.source_id === source)) return false;
-      if (onlyReview && record.analysis.status !== "NEEDS_REVIEW") return false;
+      if (!matchesSelectedValue(record.process_kind, processKinds)) return false;
+      if (!matchesSelectedValue(record.pool.existence, pools)) return false;
+      if (!matchesSelectedValue(record.access_channel, accesses)) return false;
+      if (sources.length > 0 && !record.sources.some((item) => sources.includes(item.source_id))) return false;
       if (hideFinished && isFinishedOpportunity(record)) return false;
-      if (status === "OPEN" && record.application_status !== "OPEN") return false;
-      if (status === "REVIEW" && record.analysis.status !== "NEEDS_REVIEW") return false;
-      if (status !== "ALL" && status !== "OPEN" && status !== "REVIEW" && record.process_stage !== status) return false;
+      if (!matchesSelectedStatus(record, statuses)) return false;
       return true;
     });
 
@@ -209,7 +296,7 @@ export default function OpportunityExplorer() {
       if (sort === "title") return a.title.localeCompare(b.title, "es");
       return (getLatestPublicationDate(b) ?? "").localeCompare(getLatestPublicationDate(a) ?? "");
     });
-  }, [access, hideFinished, onlyReview, pool, processKind, query, records, sort, source, status]);
+  }, [accesses, hideFinished, pools, processKinds, query, records, sort, sources, statuses]);
 
   const totalPages = Math.max(1, Math.ceil(filteredRecords.length / pageSize));
   const safePage = Math.min(page, totalPages);
@@ -249,12 +336,11 @@ export default function OpportunityExplorer() {
 
   function clearFilters() {
     setQuery("");
-    setProcessKind("ALL");
-    setPool("ALL");
-    setStatus("ALL");
-    setAccess("ALL");
-    setSource("ALL");
-    setOnlyReview(false);
+    setProcessKinds([]);
+    setPools([]);
+    setStatuses([]);
+    setAccesses([]);
+    setSources([]);
     setHideFinished(false);
     setSort("recent");
   }
@@ -310,17 +396,18 @@ export default function OpportunityExplorer() {
             />
           </label>
 
-          <label><span>Proceso</span><select value={processKind} onChange={(event) => setProcessKind(event.target.value)}><option value="ALL">Todos</option><option value="POSITION_SELECTION">Plazas</option><option value="POOL_SELECTION">Bolsas</option><option value="POSITION_PROVISION">Provisión</option></select></label>
-          <label><span>Bolsa</span><select value={pool} onChange={(event) => setPool(event.target.value)}><option value="ALL">Todas</option><option value="YES">Sí</option><option value="CONDITIONAL">Posible</option><option value="NO">No</option><option value="UNKNOWN">Desconocido</option><option value="NOT_STATED">No indicada</option></select></label>
-          <label><span>Estado</span><select value={status} onChange={(event) => setStatus(event.target.value)}><option value="ALL">Todos</option><option value="OPEN">Solicitudes abiertas</option><option value="CALL">Convocatoria</option><option value="APPLICATION">Solicitudes</option><option value="ADMISSION">Admitidos</option><option value="EXAM">Examen</option><option value="MERITS">Méritos</option><option value="FINAL_RESULT">Resultado final</option><option value="APPOINTMENT">Nombramiento</option><option value="POOL">Bolsa</option><option value="COMPLETED">Finalizado</option><option value="REVIEW">Necesita revisión</option></select></label>
-          <label><span>Acceso</span><select value={access} onChange={(event) => setAccess(event.target.value)}><option value="ALL">Todos</option><option value="FREE">Libre</option><option value="INTERNAL_PROMOTION">Promoción interna</option><option value="MIXED">Mixto</option><option value="OTHER">Otro</option></select></label>
-          <label><span>Fuente</span><select value={source} onChange={(event) => setSource(event.target.value)}><option value="ALL">Todas</option>{sourceOptions.map((item) => <option key={item} value={item}>{formatSourceLabel(item)}</option>)}</select></label>
+          <MultiSelectFilter label="Proceso" options={PROCESS_OPTIONS} selected={processKinds} onChange={setProcessKinds} disabled={loading} />
+          <MultiSelectFilter label="Bolsa" options={POOL_OPTIONS} selected={pools} onChange={setPools} disabled={loading} />
+          <MultiSelectFilter label="Estado" options={STATUS_OPTIONS} selected={statuses} onChange={setStatuses} disabled={loading} />
+          <MultiSelectFilter label="Acceso" options={ACCESS_OPTIONS} selected={accesses} onChange={setAccesses} disabled={loading} />
+          <MultiSelectFilter
+            label="Fuente"
+            options={sourceOptions.map((item) => ({ value: item, label: formatSourceLabel(item) }))}
+            selected={sources}
+            onChange={setSources}
+            disabled={loading}
+          />
           <label><span>Orden</span><select value={sort} onChange={(event) => setSort(event.target.value as SortMode)}><option value="recent">Más recientes</option><option value="oldest">Más antiguas</option><option value="vacancies">Más plazas</option><option value="complete">Mayor completitud</option><option value="title">Nombre A–Z</option></select></label>
-
-          <label className={styles.checkboxField}>
-            <input type="checkbox" checked={onlyReview} onChange={(event) => setOnlyReview(event.target.checked)} />
-            <span>Solo registros para revisar</span>
-          </label>
           <button
             type="button"
             className={`${styles.finishedToggle} ${hideFinished ? styles.finishedToggleActive : ""}`}

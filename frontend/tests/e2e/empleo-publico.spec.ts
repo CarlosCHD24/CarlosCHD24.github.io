@@ -21,6 +21,20 @@ test("employment explorer loads the master dataset and filters results", async (
   await page.getByRole("button", { name: "Limpiar filtros" }).click();
   await expect(page.getByRole("button", { name: "Ocultar 25 finalizadas" })).toHaveAttribute("aria-pressed", "false");
 
-  await page.getByRole("checkbox", { name: "Solo registros para revisar" }).check();
+  const processFilter = page.locator("details").filter({
+    has: page.locator('summary[aria-label^="Proceso:"]'),
+  });
+  await processFilter.locator("summary").click();
+  await processFilter.getByRole("checkbox", { name: "Plazas", exact: true }).check();
+  await processFilter.getByRole("checkbox", { name: "Bolsas", exact: true }).check();
+  await expect(processFilter.locator("summary")).toHaveAttribute("aria-label", "Proceso: 2 seleccionados");
+  await expect(page.getByText("219 de 236 resultados", { exact: true })).toBeVisible();
+
+  await page.getByRole("button", { name: "Limpiar filtros" }).click();
+  const statusFilter = page.locator("details").filter({
+    has: page.locator('summary[aria-label^="Estado:"]'),
+  });
+  await statusFilter.locator("summary").click();
+  await statusFilter.getByRole("checkbox", { name: "Necesita revisión" }).check();
   await expect(page.getByText("12", { exact: true }).first()).toBeVisible();
 });

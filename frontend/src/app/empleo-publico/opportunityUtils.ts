@@ -189,6 +189,7 @@ export function formatProcessStatus(record: Opportunity) {
   }
 
   const labels: Record<string, string> = {
+    DETECTED: "Detectado",
     CALL: "Convocatoria",
     APPLICATION: "Solicitudes",
     ADMISSION: "Admitidos",
@@ -205,6 +206,26 @@ export function formatProcessStatus(record: Opportunity) {
 
 export function isFinishedOpportunity(record: Opportunity) {
   return record.process_stage === "COMPLETED";
+}
+
+export function matchesSelectedValue(
+  value: string,
+  selectedValues: readonly string[],
+) {
+  return selectedValues.length === 0 || selectedValues.includes(value);
+}
+
+export function matchesSelectedStatus(
+  record: Opportunity,
+  selectedStatuses: readonly string[],
+) {
+  if (selectedStatuses.length === 0) return true;
+
+  return selectedStatuses.some((status) => {
+    if (status === "OPEN") return record.application_status === "OPEN";
+    if (status === "REVIEW") return record.analysis.status === "NEEDS_REVIEW";
+    return record.process_stage === status;
+  });
 }
 
 export function getSearchableText(record: Opportunity) {

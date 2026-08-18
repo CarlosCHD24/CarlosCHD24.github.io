@@ -7,6 +7,8 @@ import {
   getLatestPublicationDate,
   getPrimarySource,
   isFinishedOpportunity,
+  matchesSelectedStatus,
+  matchesSelectedValue,
   normalizeText,
   type Opportunity,
 } from "@/app/empleo-publico/opportunityUtils";
@@ -22,6 +24,12 @@ const record = {
     { province: "Sevilla", municipality: "Osuna", site: null, unit: null },
   ],
   vacancies_current: 3,
+  analysis: {
+    status: "READY",
+    is_complete: true,
+    completeness_pct: 100,
+    confidence: 1,
+  },
   sources: [
     {
       source_id: "PAG_EMPLEO_PUBLICO",
@@ -68,5 +76,18 @@ describe("employment presentation helpers", () => {
     expect(isFinishedOpportunity(record)).toBe(false);
     expect(isFinishedOpportunity({ ...record, process_stage: "COMPLETED" })).toBe(true);
     expect(isFinishedOpportunity({ ...record, process_stage: "APPOINTMENT" })).toBe(false);
+  });
+
+  it("matches any selected value while treating an empty selection as all", () => {
+    expect(matchesSelectedValue(record.process_kind, [])).toBe(true);
+    expect(matchesSelectedValue(record.process_kind, ["POOL_SELECTION", "POSITION_SELECTION"])).toBe(true);
+    expect(matchesSelectedValue(record.process_kind, ["POOL_SELECTION"])).toBe(false);
+  });
+
+  it("combines multiple status choices with OR semantics", () => {
+    expect(matchesSelectedStatus(record, [])).toBe(true);
+    expect(matchesSelectedStatus(record, ["ADMISSION", "OPEN"])).toBe(true);
+    expect(matchesSelectedStatus(record, ["ADMISSION", "EXAM"])).toBe(false);
+    expect(matchesSelectedStatus(record, ["APPLICATION"])).toBe(true);
   });
 });

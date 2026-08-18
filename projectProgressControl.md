@@ -40,3 +40,17 @@
   - Static export: 42 files and 3.17 MiB; both indexable and noindex modes passed.
   - Security baseline: passed.
   - Browser interaction, responsive, retired-route, and WCAG A/AA checks: 16 passed.
+
+### 2026-08-18 — Multiple-selection filters
+
+- Replaced the single-choice process, pool, status, access, and source filters with accessible checkbox menus.
+- Multiple values inside one category use OR semantics; active categories continue to combine with AND semantics.
+- Moved the review-only choice into the multiple-selection status menu and added the previously omitted detected
+  and unknown-access choices.
+- Preserved text search, sorting, the quick finished-process toggle, and complete filter reset.
+- Added helper and browser coverage for empty, single, and multiple selections.
+- Validation completed before publication:
+  - ESLint: passed with zero errors and zero warnings.
+  - Component/helper tests: 7 passed.
+  - Next.js production build, TypeScript, and static-export validation: passed.
+  - Browser interaction, responsive, retired-route, and WCAG A/AA checks: 16 passed.

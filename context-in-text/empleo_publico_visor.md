@@ -25,7 +25,8 @@ Las cifras visibles en el visor deben calcularse desde el JSONL; no deben quedar
 La ruta `/empleo-publico/` permite consultar el maestro sin interpretar manualmente cada línea. Debe ofrecer:
 
 - búsqueda de texto tolerante a mayúsculas y tildes;
-- filtros por proceso, bolsa, estado, acceso, fuente y revisión;
+- filtros de selección múltiple por proceso, bolsa, estado, acceso y fuente; las opciones de una misma categoría
+  se combinan como alternativas y las categorías activas se combinan entre sí;
 - un botón independiente para ocultar o volver a mostrar todos los procesos finalizados;
 - ordenación y paginación;
 - tabla con puesto, organismo, ubicación, plazas, bolsa, estado, fecha, fuente y completitud;
