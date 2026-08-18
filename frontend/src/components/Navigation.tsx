@@ -11,6 +11,7 @@ const navigationItems = [
   { href: "/research", label: "Research", featured: false },
   { href: "/teaching", label: "Teaching", featured: false },
   { href: "/ddcf", label: "DDCF Hub", featured: true },
+  { href: "/empleo-publico", label: "Empleo público", featured: false },
 ] as const;
 
 export default function Navigation() {

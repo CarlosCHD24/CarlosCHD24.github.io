@@ -26,9 +26,12 @@ const requiredFiles = [
   "research/index.html",
   "teaching/index.html",
   "ddcf/index.html",
+  "empleo-publico/index.html",
   "robots.txt",
   "sitemap.xml",
   "opengraph-image.png",
+  "empleo-publico-og.png",
+  "data/convocatorias.jsonl",
   "Joaquin_Garcia-Suarez_CV_May_2026.pdf",
   "images/DDCF_collage_corrected.webp",
   "images/contact_across_scales_corrected.webp",
@@ -40,6 +43,7 @@ const routeCanonicals = new Map([
   ["research/index.html", `${canonicalOrigin}/research/`],
   ["teaching/index.html", `${canonicalOrigin}/teaching/`],
   ["ddcf/index.html", `${canonicalOrigin}/ddcf/`],
+  ["empleo-publico/index.html", `${canonicalOrigin}/empleo-publico/`],
 ]);
 
 const routeSocialMetadata = new Map([
@@ -73,6 +77,18 @@ const routeSocialMetadata = new Map([
       title: "DDCF | Data-Driven Computational Friction",
       description:
         "Explore the SNSF Ambizione project connecting data-driven constitutive modeling, neural operators, GPU acceleration, and automatic differentiation.",
+    },
+  ],
+  [
+    "empleo-publico/index.html",
+    {
+      title: "Empleo público en Sevilla | Visor de oportunidades",
+      description:
+        "Consulta y filtra convocatorias, bolsas y procesos de provisión de empleo público en Sevilla y su provincia.",
+      locale: "es_ES",
+      imagePath: "/empleo-publico-og.png",
+      imageAlt:
+        "Visor de oportunidades de empleo público en Sevilla con tabla, filtros y métricas.",
     },
   ],
 ]);
@@ -239,26 +255,29 @@ for (const [routeFile, canonicalUrl] of routeCanonicals) {
   }
 
   const social = routeSocialMetadata.get(routeFile);
+  const routeLocale = social.locale || "en_US";
+  const routeImagePath = social.imagePath || socialImagePath;
+  const routeImageAlt = social.imageAlt || socialImageAlt;
   requireMeta(html, routeFile, "property", "og:title", social.title);
   requireMeta(html, routeFile, "property", "og:description", social.description);
   requireMeta(html, routeFile, "property", "og:url", canonicalUrl);
   requireMeta(html, routeFile, "property", "og:site_name", "Joaquin Garcia-Suarez");
-  requireMeta(html, routeFile, "property", "og:locale", "en_US");
+  requireMeta(html, routeFile, "property", "og:locale", routeLocale);
   requireMeta(html, routeFile, "property", "og:type", "website");
   requireMeta(html, routeFile, "property", "og:image:width", "1536");
   requireMeta(html, routeFile, "property", "og:image:height", "1024");
-  requireMeta(html, routeFile, "property", "og:image:alt", socialImageAlt);
+  requireMeta(html, routeFile, "property", "og:image:alt", routeImageAlt);
   requireMeta(html, routeFile, "name", "twitter:card", "summary_large_image");
   requireMeta(html, routeFile, "name", "twitter:title", social.title);
   requireMeta(html, routeFile, "name", "twitter:description", social.description);
-  requireMeta(html, routeFile, "name", "twitter:image:alt", socialImageAlt);
+  requireMeta(html, routeFile, "name", "twitter:image:alt", routeImageAlt);
 
   for (const [attribute, name] of [
     ["property", "og:image"],
     ["name", "twitter:image"],
   ]) {
     const imageUrl = getMetaContent(html, attribute, name);
-    if (!imageUrl?.startsWith(`${canonicalOrigin}${socialImagePath}`)) {
+    if (!imageUrl?.startsWith(`${canonicalOrigin}${routeImagePath}`)) {
       throw new Error(`${routeFile} has an invalid ${name} URL: ${imageUrl ?? "missing"}`);
     }
   }
@@ -288,13 +307,35 @@ for (const [routeFile, canonicalUrl] of routeCanonicals) {
   }
 }
 
-const socialImage = await readFile(join(outputDirectory, "opengraph-image.png"));
+for (const imageName of ["opengraph-image.png", "empleo-publico-og.png"]) {
+  const image = await readFile(join(outputDirectory, imageName));
+  if (
+    image.toString("ascii", 1, 4) !== "PNG" ||
+    image.readUInt32BE(16) !== 1536 ||
+    image.readUInt32BE(20) !== 1024
+  ) {
+    throw new Error(`${imageName} must be a validated 1536 × 1024 PNG asset`);
+  }
+}
+
+const datasetText = await readFile(join(outputDirectory, "data/convocatorias.jsonl"), "utf8");
+const datasetRecords = datasetText
+  .split("\n")
+  .filter((line) => line.trim())
+  .map((line, index) => {
+    try {
+      return JSON.parse(line);
+    } catch (error) {
+      throw new Error(`Invalid JSONL at line ${index + 1}: ${error.message}`);
+    }
+  });
 if (
-  socialImage.toString("ascii", 1, 4) !== "PNG" ||
-  socialImage.readUInt32BE(16) !== 1536 ||
-  socialImage.readUInt32BE(20) !== 1024
+  datasetRecords.length !== 236 ||
+  datasetRecords.some((record) => record.schema_version !== 2) ||
+  datasetRecords.filter((record) => record.pool?.existence === "YES").length !== 83 ||
+  datasetRecords.filter((record) => record.analysis?.status === "NEEDS_REVIEW").length !== 12
 ) {
-  throw new Error("Open Graph image must be the validated 1536 × 1024 PNG asset");
+  throw new Error("Employment dataset totals or schema do not match the validated master");
 }
 
 const sitemap = await readFile(join(outputDirectory, "sitemap.xml"), "utf8");

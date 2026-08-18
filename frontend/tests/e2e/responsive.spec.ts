@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-const routes = ["/", "/research", "/teaching", "/ddcf"] as const;
+const routes = ["/", "/research", "/teaching", "/ddcf", "/empleo-publico"] as const;
 const viewports = [
   { name: "mobile", width: 390, height: 844 },
   { name: "tablet", width: 768, height: 1024 },
@@ -38,7 +38,7 @@ test("mobile navigation exposes all primary routes", async ({ page }) => {
     .getByRole("button", { name: "Open navigation menu" })
     .click();
 
-  for (const label of ["Bio", "Research", "Teaching", "DDCF Hub"]) {
+  for (const label of ["Bio", "Research", "Teaching", "DDCF Hub", "Empleo público"]) {
     await expect(
       page.getByRole("link", { name: label, exact: true }),
     ).toBeVisible();

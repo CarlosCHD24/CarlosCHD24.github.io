@@ -14,6 +14,7 @@
 - `../context-in-text/research_statement_4_Carlson.md`: research narrative.
 - `../context-in-text/teaching_statement_4_Carlson.md`: teaching narrative.
 - `../context-in-text/goal.md`: product and design requirements.
+- `../context-in-text/empleo_publico_visor.md`: verified dataset facts and presentation rules for the public-employment viewer.
 - `../projectProgressControl.md`: verified implementation state, decisions, backlog, and validation.
 
 Use only the verified sources listed above for portfolio content.
@@ -24,6 +25,7 @@ Use only the verified sources listed above for portfolio content.
 - [x] Research route implemented.
 - [x] Teaching route implemented.
 - [x] Interactive DDCF React Flow hub implemented.
+- [x] Public-employment JSONL viewer implemented at `/empleo-publico`.
 - [x] Responsive navigation, accessibility, SEO, component tests, browser tests, and CI implemented.
 - [x] GitHub Pages-compatible static export implemented.
 - [!] GitHub Pages source switch requires repository-administrator permission.

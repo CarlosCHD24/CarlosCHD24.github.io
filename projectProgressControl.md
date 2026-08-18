@@ -823,3 +823,33 @@ Task states:
   one-medium transitive baseline until a compatible Next.js update resolves it.
 - During the administrator meeting, make `agentic_web_design` the appropriate default/production branch, enable
   Dependabot alerts/security updates there, and switch Joaquin Pages from legacy `master` to GitHub Actions.
+
+### 2026-08-18 — Public Employment Viewer
+
+- Verified authenticated administrator and push access to `CarlosCHD24/CarlosCHD24.github.io`.
+- Verified GitHub Pages is active at `https://carloschd24.github.io/` and uses the existing Pages workflow.
+- Created the isolated `codex/empleo-publico` branch from `agentic_web_design`.
+- Added the validated 236-record, schema-v2 master dataset as the stable visitor-facing file
+  `frontend/public/data/convocatorias.jsonl`.
+- Added `context-in-text/empleo_publico_visor.md` as the traceable source for dataset totals, viewer scope, and
+  presentation semantics.
+- Added the statically exportable Spanish `/empleo-publico/` route with:
+  - dynamic JSONL parsing with invalid-line isolation;
+  - text search tolerant of case and diacritics;
+  - filters for process, pool, state, access, source, and review status;
+  - sorting, pagination, accessible table markup, and expandable record details;
+  - official-source links, full source provenance, and correct `null`/`UNKNOWN`/`NOT_STATED` treatment;
+  - global and filtered metrics calculated from the dataset;
+  - responsive behavior aligned with the existing portfolio design system.
+- Added a bespoke 1536 × 1024 social preview card for the route and route-specific Spanish metadata.
+- Added the route to primary navigation, sitemap, export validation, responsive checks, accessibility checks,
+  route checks, and employment-specific interaction tests.
+- Validation completed before publication:
+  - JSONL validation: 236 valid schema-v2 records, including 83 confirmed pools and 12 review records.
+  - ESLint: passed with zero errors and zero warnings.
+  - Component/helper tests: 4 passed.
+  - Next.js production build and TypeScript: passed; `/empleo-publico/` is statically generated.
+  - Static export validation: passed with the route, dataset, canonical metadata, social card, and sitemap.
+  - Reviewed dependency security baseline: passed.
+  - Playwright route, interaction, responsive, and WCAG A/AA checks: 36 passed.
+  - Export size: 9.59 MiB, below the established 12 MiB ceiling.

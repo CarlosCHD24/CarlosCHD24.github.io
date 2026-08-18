@@ -11,12 +11,21 @@ type SocialMetadataOptions = {
   title: string;
   description: string;
   url: string;
+  locale?: string;
+  image?: {
+    url: string;
+    width: number;
+    height: number;
+    alt: string;
+  };
 };
 
 export function createSocialMetadata({
   title,
   description,
   url,
+  locale = "en_US",
+  image = socialImage,
 }: SocialMetadataOptions): Pick<Metadata, "openGraph" | "twitter"> {
   return {
     openGraph: {
@@ -25,14 +34,14 @@ export function createSocialMetadata({
       type: "website",
       url,
       siteName: "Joaquin Garcia-Suarez",
-      locale: "en_US",
-      images: [socialImage],
+      locale,
+      images: [image],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [socialImage],
+      images: [image],
     },
   };
 }

@@ -5,6 +5,7 @@ const routes = [
   { path: "/research", heading: "Three Pillars of Research" },
   { path: "/teaching", heading: "Mentorship & Education" },
   { path: "/ddcf", heading: /Data-Driven\s+Computational Friction/i },
+  { path: "/empleo-publico", heading: "Oportunidades de empleo público" },
 ] as const;
 
 for (const route of routes) {

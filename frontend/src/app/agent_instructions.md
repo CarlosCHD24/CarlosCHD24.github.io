@@ -17,6 +17,7 @@
 | `/research` | Three research themes, current directions, foundation, recognition, and publications | Complete |
 | `/teaching` | Philosophy, methods, experience, mentoring evidence, and proposed courses | Complete |
 | `/ddcf` | Interactive Data-Driven Computational Friction project hub | Complete |
+| `/empleo-publico` | Spanish read-only explorer for the consolidated public-employment JSONL | Complete |
 
 ## Generated resources
 
