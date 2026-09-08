@@ -82,6 +82,12 @@
   font-size: 0.95rem;
 }
 
+.coverage small {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
 .coverage a {
   margin-top: 0.75rem;
   font-size: 0.82rem;

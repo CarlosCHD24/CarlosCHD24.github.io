@@ -4,7 +4,7 @@
 
 - Static Next.js viewer for public-employment opportunities in Sevilla and its province.
 - Public routes: `/` and `/empleo-publico/`.
-- Dataset: 236 valid schema-v2 records in `frontend/public/data/convocatorias.jsonl`.
+- Dataset: 302 valid schema-v2 records through 8 September 2026 in `frontend/public/data/convocatorias.jsonl`.
 - Features: diacritic-tolerant search, collapsible multi-select process/pool/status/access/source/review filters,
   one-click finished-process hiding, sorting, pagination, accessible table, expandable details, and official-source links.
 - Publishing target: `https://carloschd24.github.io/` through GitHub Pages.
@@ -65,3 +65,16 @@
   - Component/helper tests: 7 passed.
   - Next.js production build, TypeScript, and static-export validation: passed (42 files, 3.18 MiB).
   - Browser interaction, responsive, retired-route, and WCAG A/AA checks: 16 passed.
+
+### 2026-09-08 — Dataset update through 8 September
+
+- Replaced the public master with 302 schema-v2 opportunities: all 236 previous IDs retained and 66 net new records added.
+- Recorded the update report, source-coverage ledger, and eight documented incidences alongside the product context.
+- Updated visitor-facing coverage, the sitemap date, dataset totals, and the dynamic “Todas” pagination option.
+- Verified 20 open application processes, 103 confirmed pools, 29 active pools, 14 review records, and 31 completed processes.
+- Preserved the coverage limitation that BOE was checked through 8 September while the latest located BOP Sevilla was 7 September.
+- Validation completed before publication:
+  - Dataset parsing and identity checks: 302 valid records, zero duplicate IDs, zero missing required presentation fields.
+  - ESLint: passed with zero errors and zero warnings.
+  - Component/helper tests: 7 passed.
+  - Next.js production build, TypeScript, static-export validation, and reviewed security baseline: passed (42 files, 3.36 MiB).

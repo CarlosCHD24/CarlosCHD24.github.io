@@ -3,7 +3,7 @@ import { absoluteUrl } from "@/lib/site";
 
 export const dynamic = "force-static";
 
-const lastModified = new Date("2026-08-18");
+const lastModified = new Date("2026-09-08");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

@@ -1,0 +1,124 @@
+{
+  "window": {
+    "from": "2026-08-19",
+    "to": "2026-09-08"
+  },
+  "executed_at": "2026-09-08T13:43:00+02:00",
+  "latest_bop_checked": "2026-09-07",
+  "boe_checked_through": "2026-09-08",
+  "method": "Official daily BOP pages + official BOE/BOJA and organization portals; web-index-assisted for some organization portals.",
+  "sources": [
+    {
+      "source_id": "BOE",
+      "consulted": true,
+      "records_or_events_contributed": 18,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Revisado hasta el BOE de 08/09; múltiples aperturas de plazo locales/provinciales."
+    },
+    {
+      "source_id": "BOJA",
+      "consulted": true,
+      "records_or_events_contributed": 7,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Revisado; Educación y SAS aportan novedades concretas."
+    },
+    {
+      "source_id": "BOP_SEVILLA",
+      "consulted": true,
+      "records_or_events_contributed": 70,
+      "coverage_status": "DAILY_ENUMERATED",
+      "notes": "Revisión diaria desde 19/08 hasta el último BOP disponible localizado, 07/09 (núm. 173)."
+    },
+    {
+      "source_id": "PAG_EMPLEO_PUBLICO",
+      "consulted": true,
+      "records_or_events_contributed": 0,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Consultado como agregador; Peón Sevilla verificado con plazo hasta 11/09, manteniendo la discrepancia histórica de plazas."
+    },
+    {
+      "source_id": "JUNTA_EMPLEO_PUBLICO",
+      "consulted": true,
+      "records_or_events_contributed": 0,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Consultado; sin nueva oportunidad independiente suficientemente identificada en esta pasada."
+    },
+    {
+      "source_id": "JUNTA_EDUCACION_RRHH",
+      "consulted": true,
+      "records_or_events_contributed": 6,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Convocatoria restringida extraordinaria activa, 6 especialidades."
+    },
+    {
+      "source_id": "SAS_EMPLEO",
+      "consulted": true,
+      "records_or_events_contributed": 1,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Consultado; se incorpora la provisión Jefe/a Equipo Los Palacios. Evento genérico OEP 24/08 no se persiste al no estar descompuesto por categoría."
+    },
+    {
+      "source_id": "AYTO_SEVILLA_RRHH",
+      "consulted": true,
+      "records_or_events_contributed": 0,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Consultado como tracker; sin registro nuevo inequívoco adicional a BOP/BOE en esta pasada."
+    },
+    {
+      "source_id": "AYTO_SEVILLA_BOLSAS",
+      "consulted": true,
+      "records_or_events_contributed": 0,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Consultado; sin nueva bolsa inequívoca adicional en la ventana recuperada."
+    },
+    {
+      "source_id": "DIPUTACION_SEVILLA_RRHH",
+      "consulted": true,
+      "records_or_events_contributed": 0,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Consultado; las nuevas oportunidades quedan representadas principalmente por BOE/BOP."
+    },
+    {
+      "source_id": "DIPUTACION_SEVILLA_BOLSAS",
+      "consulted": true,
+      "records_or_events_contributed": 0,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Consultado como soporte/tracker."
+    },
+    {
+      "source_id": "UNIVERSIDAD_SEVILLA_PTGAS",
+      "consulted": true,
+      "records_or_events_contributed": 2,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Nuevos eventos de admitidos/exámenes y tribunal."
+    },
+    {
+      "source_id": "UNIVERSIDAD_SEVILLA_BOLSAS",
+      "consulted": true,
+      "records_or_events_contributed": 6,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Nuevos admitidos y varias bolsas definitivas."
+    },
+    {
+      "source_id": "UPO_PTGAS",
+      "consulted": true,
+      "records_or_events_contributed": 3,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Estado actual revisado; 5 plazas laborales fijas activas hasta 17/09, descompuestas en 3 oportunidades."
+    },
+    {
+      "source_id": "UPO_BOLSAS",
+      "consulted": true,
+      "records_or_events_contributed": 0,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Consultado; no hay nuevas bolsas abiertas distintas de procesos ya registrados."
+    },
+    {
+      "source_id": "PUERTO_SEVILLA_EMPLEO",
+      "consulted": true,
+      "records_or_events_contributed": 1,
+      "coverage_status": "OFFICIAL_REVIEWED",
+      "notes": "Página actual revisada; aparece nueva plaza Responsable Económico-Financiero en proceso."
+    }
+  ]
+}

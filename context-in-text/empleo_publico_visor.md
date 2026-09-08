@@ -2,21 +2,25 @@
 
 ## Fuente verificada
 
-- Dataset: `convocatorias_2026-04-21_2026-08-18_maestro_120_dias.jsonl`.
+- Dataset: `convocatorias_2026-04-21_2026-09-08_maestro_actualizado.jsonl`.
 - Copia pública estable: `frontend/public/data/convocatorias.jsonl`.
 - Contrato: JSON Lines con `schema_version: 2`.
-- Ventana cubierta: 21 de abril de 2026 a 18 de agosto de 2026.
-- Fecha de consolidación: 18 de agosto de 2026.
+- Ventana cubierta: 21 de abril de 2026 a 8 de septiembre de 2026.
+- Fecha de consolidación: 8 de septiembre de 2026.
+- Trazabilidad de la actualización: `informe_actualizacion_2026-09-08.md`,
+  `incidencias_actualizacion_2026-09-08.md` y `fuentes_procesadas_2026-08-19_2026-09-08.json`.
+- Las 16 fuentes del catálogo se consultaron; BOE se revisó hasta el 8 de septiembre y el último BOP Sevilla
+  localizado fue el boletín 173 del 7 de septiembre.
 
 ## Cifras del maestro
 
-- 236 oportunidades consolidadas.
-- 83 registros con bolsa confirmada (`pool.existence == YES`).
-- 12 registros que requieren revisión (`analysis.status == NEEDS_REVIEW`).
-- 28 registros con más de una fuente.
-- 5 procesos con solicitudes abiertas (`application_status == OPEN`).
-- 25 procesos finalizados (`process_stage == COMPLETED`).
-- 157 procesos de selección de plazas, 62 procesos de bolsa y 17 procesos de provisión.
+- 302 oportunidades consolidadas.
+- 103 registros con bolsa confirmada (`pool.existence == YES`), de los cuales 29 tienen estado `ACTIVE`.
+- 14 registros que requieren revisión (`analysis.status == NEEDS_REVIEW`).
+- 47 registros con más de una fuente.
+- 20 procesos con solicitudes abiertas (`application_status == OPEN`).
+- 31 procesos finalizados (`process_stage == COMPLETED`).
+- 203 procesos de selección de plazas, 76 procesos de bolsa y 23 procesos de provisión.
 
 Las cifras visibles en el visor deben calcularse desde el JSONL; no deben quedar fijadas en el código de interfaz.
 

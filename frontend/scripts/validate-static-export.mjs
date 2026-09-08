@@ -232,11 +232,13 @@ const datasetRecords = datasetText
     }
   });
 if (
-  datasetRecords.length !== 236 ||
+  datasetRecords.length !== 302 ||
   datasetRecords.some((record) => record.schema_version !== 2) ||
-  datasetRecords.filter((record) => record.pool?.existence === "YES").length !== 83 ||
-  datasetRecords.filter((record) => record.analysis?.status === "NEEDS_REVIEW").length !== 12 ||
-  datasetRecords.filter((record) => record.process_stage === "COMPLETED").length !== 25
+  new Set(datasetRecords.map((record) => record.id)).size !== 302 ||
+  datasetRecords.filter((record) => record.pool?.existence === "YES").length !== 103 ||
+  datasetRecords.filter((record) => record.application_status === "OPEN").length !== 20 ||
+  datasetRecords.filter((record) => record.analysis?.status === "NEEDS_REVIEW").length !== 14 ||
+  datasetRecords.filter((record) => record.process_stage === "COMPLETED").length !== 31
 ) {
   throw new Error("Employment dataset totals or schema do not match the validated master");
 }

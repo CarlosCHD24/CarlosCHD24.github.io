@@ -1,6 +1,7 @@
 # Oportunidades de empleo público
 
-Visor estático de 236 convocatorias, bolsas y procesos de provisión de empleo público en Sevilla y su provincia.
+Visor estático de 302 convocatorias, bolsas y procesos de provisión de empleo público en Sevilla y su provincia,
+actualizadas hasta el 8 de septiembre de 2026.
 
 ## Aplicación
 

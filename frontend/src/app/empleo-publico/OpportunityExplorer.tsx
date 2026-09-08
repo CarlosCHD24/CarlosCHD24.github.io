@@ -517,7 +517,7 @@ export default function OpportunityExplorer() {
             </div>
 
             <div className={styles.pagination}>
-              <label>Filas por página <select value={pageSize} onChange={(event) => setPageSize(Number(event.target.value))}><option value={25}>25</option><option value={50}>50</option><option value={100}>100</option><option value={236}>Todas</option></select></label>
+              <label>Filas por página <select value={pageSize} onChange={(event) => setPageSize(Number(event.target.value))}><option value={25}>25</option><option value={50}>50</option><option value={100}>100</option><option value={Math.max(records.length, 1)}>Todas</option></select></label>
               <div>
                 <button type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={safePage <= 1}>Anterior</button>
                 <span>Página {safePage} de {totalPages}</span>
@@ -549,7 +549,8 @@ export default function OpportunityExplorer() {
         </div>
         <div className={styles.coverage} aria-label="Cobertura del conjunto de datos">
           <span>Cobertura</span>
-          <strong>21 abr — 18 ago 2026</strong>
+          <strong>21 abr — 8 sep 2026</strong>
+          <small>BOE revisado hasta el 8 sep · BOP Sevilla hasta el boletín del 7 sep</small>
           <a href={DATASET_URL} download>
             Descargar JSONL <span aria-hidden="true">↓</span>
           </a>
