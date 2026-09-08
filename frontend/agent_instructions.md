@@ -12,8 +12,8 @@
 
 - `/` and `/empleo-publico/` expose the public-employment explorer.
 - The visitor-facing dataset is `public/data/convocatorias.jsonl`.
-- Search, filters, the finished-process toggle, sorting, pagination, accessible table markup, and official-source
-  details are implemented.
+- Intent-based views, derived lifecycle/audience, visible deadlines, advanced filters, sorting, pagination,
+  accessible table markup, and official-source details are implemented.
 - GitHub Actions validates and publishes the static site.
 
 ## Delivery rules

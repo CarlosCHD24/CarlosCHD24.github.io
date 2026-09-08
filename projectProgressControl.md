@@ -5,11 +5,52 @@
 - Static Next.js viewer for public-employment opportunities in Sevilla and its province.
 - Public routes: `/` and `/empleo-publico/`.
 - Dataset: 302 valid schema-v2 records through 8 September 2026 in `frontend/public/data/convocatorias.jsonl`.
-- Features: diacritic-tolerant search, collapsible multi-select process/pool/status/access/source/review filters,
-  one-click finished-process hiding, sorting, pagination, accessible table, expandable details, and official-source links.
+- Features: intent-based views, derived lifecycle and audience, visible application deadlines/restrictions,
+  quick exclusions with removable chips, collapsible advanced filters, utility ranking, active/planned pool separation,
+  pagination, accessible desktop table, stacked mobile cards, expandable transparency, and official-source CTAs.
 - Publishing target: `https://carloschd24.github.io/` through GitHub Pages.
 
 ## Completed work
+
+### 2026-09-08 — Citizen copy, search and shareable state
+
+- Replaced every currently visible contract enum with a tested Spanish label and added concise help for open,
+  unconfirmed, restricted and historical states next to the explorer.
+- Removed internal review/completeness metrics from the public summary and surfaced actionable access/deadline counts.
+- Changed search from contiguous substring matching to punctuation-insensitive all-term matching across relevant fields,
+  with an explicit recovery action for empty results.
+- Added validated URL persistence for view, query, all filter groups, quick exclusions, sort, page size and page;
+  reload, copied links and browser back/forward restore state while the default URL remains clean.
+- Added shared domain fixtures and user-oriented browser journeys for all five views, search recovery, enum presentation,
+  keyboard use and URL navigation.
+
+### 2026-09-08 — Actionable results and mobile cards
+
+- Redesigned each result around eligibility, actionable state, deadline, location, vacancies, pool status and a prominent
+  official-source CTA; completeness, confidence and review status now live in an expandable transparency block.
+- Added deterministic “Most useful” ranking by actionability, audience, known closing date and last update.
+- Added five reversible quick filters with removal counts, removable chips and a one-action route to the complete master;
+  advanced filter values remain OR within a category and categories remain AND between each other.
+- Split active pools from planned pools in filters, summaries and result labels while preserving the active/open overlap.
+- Replaced the mobile table with stacked cards below 800 px and preserved comparison in the desktop table.
+- Added 21 unit and 28 browser regressions for ranking, quick-filter semantics, the 29 active/74 planned pools,
+  official CTAs, keyboard use, transparency, reading order, WCAG A/AA and horizontal overflow at 320, 390, 768,
+  1280 and 1536 px.
+
+### 2026-09-08 — User-oriented opportunity classification
+
+- Replaced the unsafe completed/not-completed presentation rule with a documented utility contract that separates
+  application availability, active pools, participant tracking, history, and access restrictions.
+- Added a domain validator with zero unreviewed errors, one documented overlapping lifecycle, and explicit warnings
+  for the 17 open applications whose end date is not structured.
+- Derived audience from structured access, process, provision, and vacancy-quota fields; added a reviewed override for
+  the extraordinary teaching-pool call that requires membership in another pool.
+- Added visible deadline states and application periods without inventing business-day calculations.
+- Made “Para inscribirme” the initial view and added one-action views for upcoming calls, active pools, participant
+  tracking, and the complete 302-record master.
+- Replaced administrative summary metrics with actionable view counts and preserved all 29 active pools in their view.
+- Added unit and browser regressions for open/completed overlap, active pools, deadlines, internal promotion,
+  provision, reserved quotas, default view, and access to the complete master.
 
 ### 2026-08-18 — Employment viewer
 

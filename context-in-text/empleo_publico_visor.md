@@ -5,6 +5,7 @@
 - Dataset: `convocatorias_2026-04-21_2026-09-08_maestro_actualizado.jsonl`.
 - Copia pública estable: `frontend/public/data/convocatorias.jsonl`.
 - Contrato: JSON Lines con `schema_version: 2`.
+- Contrato funcional de utilidad del visor: `contrato_utilidad_oportunidades.md`.
 - Ventana cubierta: 21 de abril de 2026 a 8 de septiembre de 2026.
 - Fecha de consolidación: 8 de septiembre de 2026.
 - Trazabilidad de la actualización: `informe_actualizacion_2026-09-08.md`,
@@ -15,7 +16,7 @@
 ## Cifras del maestro
 
 - 302 oportunidades consolidadas.
-- 103 registros con bolsa confirmada (`pool.existence == YES`), de los cuales 29 tienen estado `ACTIVE`.
+- 103 registros con bolsa confirmada (`pool.existence == YES`): 29 tienen estado `ACTIVE` y 74 `PLANNED`.
 - 14 registros que requieren revisión (`analysis.status == NEEDS_REVIEW`).
 - 47 registros con más de una fuente.
 - 20 procesos con solicitudes abiertas (`application_status == OPEN`).
@@ -26,19 +27,24 @@ Las cifras visibles en el visor deben calcularse desde el JSONL; no deben quedar
 
 ## Objetivo del visor
 
-La ruta `/empleo-publico/` permite consultar el maestro sin interpretar manualmente cada línea. Debe ofrecer:
+La ruta `/empleo-publico/` permite consultar el maestro sin interpretar manualmente cada línea. Su vista inicial prioriza
+las oportunidades con inscripción abierta y deja el maestro completo a una sola acción. Debe ofrecer:
 
-- búsqueda de texto tolerante a mayúsculas y tildes;
-- filtros de selección múltiple por proceso, bolsa, estado, acceso y fuente; las opciones de una misma categoría
+- búsqueda por términos, tolerante a mayúsculas, tildes, puntuación y distinto orden de palabras;
+- filtros de selección múltiple por proceso, creación/estado de bolsa, fase, acceso y fuente; las opciones de una misma categoría
   se combinan como alternativas y las categorías activas se combinan entre sí;
+- exclusiones rápidas con recuento y chips retirables para acceso general, inscripción abierta, promoción interna,
+  provisión/movilidad e histórico;
 - un panel de filtros desplegable, cerrado por defecto, que conserva y resume los criterios activos;
-- un botón independiente para ocultar o volver a mostrar todos los procesos finalizados;
-- ordenación y paginación;
-- tabla con puesto, organismo, ubicación, plazas, bolsa, estado, fecha, fuente y completitud;
-- detalle expandible con titulación, requisitos, solicitudes, fuentes, análisis y notas;
+- vistas por intención para inscripción abierta, próximas oportunidades, bolsas vigentes, participación iniciada y maestro completo;
+- orden “Más útiles” por capacidad de acción, audiencia y urgencia, además de las ordenaciones alternativas y paginación;
+- tabla comparativa en escritorio y tarjetas apiladas sin desplazamiento horizontal en móvil;
+- cada resultado responde acceso, estado, plazo, plazas, bolsa y fuente oficial; el detalle expandible conserva
+  titulación, requisitos, solicitudes, todas las fuentes, transparencia y notas;
 - resumen superior del maestro y resumen inferior del resultado filtrado;
 - un bloque final con la cobertura temporal y la descarga del maestro JSONL;
 - enlaces a todas las fuentes oficiales disponibles.
+- estado de vista, consulta, filtros, orden y paginación persistente y compartible mediante URL validada.
 
 ## Reglas de presentación
 
@@ -47,10 +53,13 @@ La ruta `/empleo-publico/` permite consultar el maestro sin interpretar manualme
 - `UNKNOWN` se presenta como `Desconocido` cuando aporta contexto.
 - `NOT_STATED` se presenta como `No indicado en las bases`.
 - Las plazas desconocidas no se cuentan como cero.
-- Una bolsa pura con plazas nulas se presenta como `Bolsa`.
+- Una bolsa pura con plazas nulas se presenta como “No aplicable (bolsa)”; otras plazas desconocidas, como “No indicadas”.
 - La fecha principal es la publicación más reciente de `sources[]`, no `updated_at`.
 - La fuente principal prioriza publicación legal, portal del organismo y agregador oficial, por ese orden.
 - Todo texto del JSONL se representa como texto React; nunca se inyecta como HTML.
+- Los enums del contrato se traducen mediante catálogos españoles con cobertura probada sobre el maestro actual.
+- La fase administrativa, la vigencia de la bolsa y la apertura de solicitudes se combinan según
+  `contrato_utilidad_oportunidades.md`; `COMPLETED` por sí solo no significa histórico.
 
 ## Alcance
 

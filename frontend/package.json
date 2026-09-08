@@ -8,14 +8,15 @@
     "start": "node scripts/serve-static.mjs",
     "lint": "eslint",
     "validate:export": "node scripts/validate-static-export.mjs",
+    "validate:domain": "node scripts/validate-opportunity-domain.mjs",
     "validate:security-baseline": "node scripts/validate-security-baseline.mjs",
     "check:links": "node scripts/check-external-links.mjs",
-    "test": "npm run test:component && npm run build && npm run validate:export && npm run test:e2e",
+    "test": "npm run validate:domain && npm run test:component && npm run build && npm run validate:export && npm run test:e2e",
     "test:component": "vitest run",
     "test:component:watch": "vitest",
     "test:e2e": "playwright test",
     "test:e2e:report": "playwright show-report",
-    "test:ci": "npm run lint && npm run test:component && npm run build && npm run validate:export && npm run test:e2e"
+    "test:ci": "npm run lint && npm run validate:domain && npm run test:component && npm run build && npm run validate:export && npm run test:e2e"
   },
   "dependencies": {
     "next": "16.2.12",

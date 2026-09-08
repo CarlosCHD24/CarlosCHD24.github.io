@@ -9,7 +9,13 @@ actualizadas hasta el 8 de septiembre de 2026.
 - Exportación estática compatible con GitHub Pages.
 - Portada en `/` y acceso estable alternativo en `/empleo-publico/`.
 - Datos servidos desde `public/data/convocatorias.jsonl`.
-- Búsqueda, filtros, ocultación de procesos finalizados, ordenación, paginación y detalle de fuentes oficiales.
+- Vista inicial de inscripción abierta y vistas separadas para próximas convocatorias, bolsas vigentes, participación iniciada y maestro completo.
+- Audiencia derivada, restricciones visibles, plazos conocidos o explícitamente pendientes y enlaces a fuentes oficiales.
+- Búsqueda por términos en cualquier orden, URL compartible, orden por utilidad/urgencia, exclusiones rápidas con
+  recuentos/chips y filtros avanzados combinables.
+- Bolsas vigentes y previstas separadas, tabla comparativa de escritorio y tarjetas apiladas para móvil.
+- Paginación y detalle expandible con todas las fuentes y un bloque específico de transparencia del dato.
+- Catálogos ciudadanos para enums administrativos y ayuda breve para interpretar estados.
 
 ## Desarrollo
 
@@ -24,6 +30,7 @@ Comprobación completa:
 
 ```bash
 npm run lint
+npm run validate:domain
 npm run test:component
 npm run build
 npm run validate:export

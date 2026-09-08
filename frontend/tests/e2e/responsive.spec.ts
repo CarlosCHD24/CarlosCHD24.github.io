@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 const routes = ["/", "/empleo-publico"] as const;
 const viewports = [
+  { name: "small-mobile", width: 320, height: 720 },
   { name: "mobile", width: 390, height: 844 },
   { name: "tablet", width: 768, height: 1024 },
   { name: "laptop", width: 1280, height: 800 },
